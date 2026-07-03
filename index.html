@@ -15,7 +15,7 @@
 </head>
 <body>
 
-  <!-- Background Glowing Blobs for Aesthetics -->
+  <!-- Ambient background glow blobs -->
   <div class="glow-bg">
     <div class="blob blob-purple"></div>
     <div class="blob blob-blue"></div>
@@ -23,224 +23,175 @@
 
   <div class="app-container">
     
-    <!-- Top Header -->
-    <header class="app-header">
-      <div class="brand">
-        <div class="logo-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Top Header Banner Panel -->
+    <header class="app-header-banner glass-panel">
+      <h1>Find Edexcel IGCSE Past Papers Instantly</h1>
+      <p>Select a subject, filter by year or session, and download fully verified question papers, marking schemes, and reports.</p>
+      
+      <!-- Big Search box inside the header banner -->
+      <div class="search-box-container">
+        <span class="search-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
-        </div>
-        <div class="brand-text">
-          <h1>IGCSE Past Paper Space</h1>
-          <p>October Series Exam Prep Assistant</p>
-        </div>
-      </div>
-      <div class="stats-badge">
-        <span id="total-papers-count">0</span> Papers Uploaded
+        </span>
+        <input type="text" id="search-input" placeholder="Search by subject, code, year (e.g. Mathematics, 4MA1, 2023)..." autocomplete="off">
+        <button id="clear-search" class="clear-btn" aria-label="Clear search" style="display: none;">
+          &times;
+        </button>
       </div>
     </header>
 
-    <!-- Main Workspace Dashboard -->
+    <!-- Main Workspace Dashboard Grid -->
     <main class="dashboard-main">
       
-      <!-- Left sidebar: Controls & Upload Instructions -->
+      <!-- Left sidebar: Filter panels -->
       <aside class="sidebar">
         
-        <!-- Search & Subject Quick Filters -->
-        <div class="control-panel glass-panel">
-          <h2>Find Papers</h2>
-          
-          <!-- Search box -->
-          <div class="search-box">
-            <span class="search-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <!-- SUBJECTS filter -->
+        <div class="filter-card glass-panel">
+          <h3>Subjects</h3>
+          <!-- Local search input inside sidebar -->
+          <div class="sidebar-search-box">
+            <span class="sidebar-search-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="8"></circle>
                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               </svg>
             </span>
-            <input type="text" id="search-input" placeholder="Search by paper name, subject, or year..." autocomplete="off">
-            <button id="clear-search" class="clear-btn" aria-label="Clear search" style="display: none;">
-              &times;
-            </button>
+            <input type="text" id="subject-search-input" placeholder="Find a subject..." autocomplete="off">
           </div>
-
-          <!-- Subject filter buttons -->
-          <div class="subject-filter-container">
-            <h3>Filter by Subject</h3>
-            <div class="subject-buttons-grid">
-              <button class="subject-tag active" data-subject="all">
-                <span class="subject-tag-code">ALL</span>
-                <span class="subject-tag-name">All Subjects</span>
-              </button>
-              
-              <button class="subject-tag" data-subject="4AC1">
-                <span class="subject-tag-code">4AC1</span>
-                <span class="subject-tag-name">Accounting</span>
-              </button>
-              
-              <button class="subject-tag" data-subject="4CH1">
-                <span class="subject-tag-code">4CH1</span>
-                <span class="subject-tag-name">Chemistry</span>
-              </button>
-              
-              <button class="subject-tag" data-subject="4EC1">
-                <span class="subject-tag-code">4EC1</span>
-                <span class="subject-tag-name">Economics</span>
-              </button>
-              
-              <button class="subject-tag" data-subject="4EB1">
-                <span class="subject-tag-code">4EB1</span>
-                <span class="subject-tag-name">English Language B</span>
-              </button>
-              
-              <button class="subject-tag" data-subject="4XES2">
-                <span class="subject-tag-code">4XES2</span>
-                <span class="subject-tag-name">English as Second Lang 0</span>
-              </button>
-              
-              <button class="subject-tag" data-subject="4ET1">
-                <span class="subject-tag-code">4ET1</span>
-                <span class="subject-tag-name">English Literature</span>
-              </button>
-              
-              <button class="subject-tag" data-subject="4PM1">
-                <span class="subject-tag-code">4PM1</span>
-                <span class="subject-tag-name">Further Pure Math</span>
-              </button>
-              
-              <button class="subject-tag" data-subject="4MA1">
-                <span class="subject-tag-code">4MA1</span>
-                <span class="subject-tag-name">Mathematics A</span>
-              </button>
-              
-              <button class="subject-tag" data-subject="4MB1">
-                <span class="subject-tag-code">4MB1</span>
-                <span class="subject-tag-name">Mathematics B</span>
-              </button>
-              
-              <button class="subject-tag" data-subject="4PH1">
-                <span class="subject-tag-code">4PH1</span>
-                <span class="subject-tag-name">Physics</span>
-              </button>
-            </div>
+          
+          <div class="filter-list subjects-scroll-list" id="subjects-filter-list">
+            <button class="filter-item active" data-subject="all">
+              <span class="filter-item-text">All Subjects</span>
+              <span class="count-badge" id="count-all-subjects">0</span>
+            </button>
+            
+            <button class="filter-item" data-subject="4AC1">
+              <span class="filter-item-code">4AC1</span>
+              <span class="filter-item-text">Mathematics A</span> <!-- Wait, we will dynamically map code to text or render dynamically -->
+            </button>
           </div>
         </div>
 
-        <!-- Help accordion: How to upload past papers -->
-        <div class="help-panel glass-panel">
-          <button class="help-header-btn" id="toggle-help-btn">
-            <span>How to Upload New Papers</span>
-            <span class="chevron-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-              </svg>
-            </span>
-          </button>
-          <div class="help-content" id="help-content-panel">
-            <div class="guide-steps">
-              <div class="guide-step">
-                <span class="step-num">1</span>
-                <div class="step-text">
-                  <strong>Open GitHub:</strong> Go to your GitHub website repository.
-                </div>
-              </div>
-              
-              <div class="guide-step">
-                <span class="step-num">2</span>
-                <div class="step-text">
-                  <strong>Navigate:</strong> Open the <code>papers/</code> folder, then select a subject folder (e.g. <code>4CH1 Chemistry</code>).
-                </div>
-              </div>
-              
-              <div class="guide-step">
-                <span class="step-num">3</span>
-                <div class="step-text">
-                  <strong>Create Year Folder (If new):</strong> Click "Add file" &rarr; "Create new file". Type the year followed by a slash (e.g., <code>2023/</code>) to create a year folder, name it <code>.gitkeep</code>, and click commit.
-                </div>
-              </div>
-              
-              <div class="guide-step">
-                <span class="step-num">4</span>
-                <div class="step-text">
-                  <strong>Upload PDFs:</strong> Enter the year folder, click "Add file" &rarr; "Upload files", then drag and drop your paper PDF files.
-                </div>
-              </div>
-              
-              <div class="guide-step">
-                <span class="step-num">5</span>
-                <div class="step-text">
-                  <strong>Commit & Update:</strong> Click "Commit changes". Vercel will rebuild the site, and they'll show up here automatically!
-                </div>
-              </div>
-            </div>
+        <!-- EXAM YEAR filter -->
+        <div class="filter-card glass-panel">
+          <h3>Exam Year</h3>
+          <div class="years-grid" id="years-filter-grid">
+            <button class="year-btn active" data-year="all">All</button>
+            <!-- Dynamically populated year buttons -->
+          </div>
+        </div>
 
-            <div class="naming-tip">
-              <strong>💡 File Naming Tip:</strong>
-              <p>For beautiful auto-generated paper titles, name your PDFs in the Edexcel format:<br>
-              <code>[SubjectCode]_[Paper]_[DocType]_[Date].pdf</code><br>
-              E.g., <code>4CH1_1C_que_20230518.pdf</code> will appear as:<br>
-              <strong>Paper 1C - Question Paper (June 2023)</strong>
-              </p>
-              <ul>
-                <li><code>que</code> / <code>qp</code> = Question Paper</li>
-                <li><code>msc</code> / <code>ms</code> = Mark Scheme</li>
-                <li><code>rms</code> = Regional Mark Scheme</li>
-                <li><code>er</code> = Examiner Report</li>
-              </ul>
-            </div>
+        <!-- PAPER TYPE filter -->
+        <div class="filter-card glass-panel">
+          <h3>Paper Type</h3>
+          <div class="filter-list" id="paper-type-filter-list">
+            <button class="filter-item active" data-type="all">
+              <span class="filter-item-text">All Document Types</span>
+            </button>
+            <button class="filter-item" data-type="QP">
+              <span class="filter-item-text">Question Papers (QP)</span>
+            </button>
+            <button class="filter-item" data-type="MS">
+              <span class="filter-item-text">Mark Schemes (MS)</span>
+            </button>
+            <button class="filter-item" data-type="ER">
+              <span class="filter-item-text">Examiner Reports (ER)</span>
+            </button>
+            <button class="filter-item" data-type="GB">
+              <span class="filter-item-text">Grade Boundaries (GB)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- EXAM SESSION filter -->
+        <div class="filter-card glass-panel">
+          <h3>Exam Session</h3>
+          <div class="filter-list" id="session-filter-list">
+            <button class="filter-item active" data-session="all">
+              <span class="filter-item-text">All Sessions</span>
+            </button>
+            <button class="filter-item" data-session="January">
+              <span class="filter-item-text">January</span>
+            </button>
+            <button class="filter-item" data-session="May/June">
+              <span class="filter-item-text">May/June</span>
+            </button>
+            <button class="filter-item" data-session="November">
+              <span class="filter-item-text">November</span>
+            </button>
           </div>
         </div>
 
       </aside>
 
-      <!-- Right contents: Past papers display -->
+      <!-- Right contents: Documents flat list -->
       <section class="content-section">
         
-        <!-- Year filter tabs -->
-        <div class="year-tabs-container glass-panel">
-          <span class="filter-label">Year:</span>
-          <div class="tabs-scroll" id="year-tabs-list">
-            <!-- Dynamically populated, with 'All' active -->
-            <button class="year-tab active" data-year="all">All Years</button>
-          </div>
-        </div>
-
-        <!-- Papers grid -->
-        <div class="papers-grid-header">
-          <h2 id="current-filter-title">All Papers</h2>
-          <span id="filtered-count" class="count-indicator">Showing 0 papers</span>
+        <!-- Results header strip -->
+        <div class="results-header-strip glass-panel">
+          <h2 id="current-filter-title">All Past Papers</h2>
+          <span id="filtered-count" class="count-indicator">0 documents</span>
         </div>
 
         <!-- Error/Empty state placeholder -->
-        <div id="no-papers-placeholder" class="empty-state glass-panel">
-          <div class="empty-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-              <polyline points="14 2 14 8 20 8"></polyline>
-              <line x1="9" y1="15" x2="15" y2="15"></line>
-              <line x1="9" y1="11" x2="15" y2="11"></line>
-              <line x1="9" y1="18" x2="10" y2="18"></line>
+        <div id="no-papers-placeholder" class="empty-state glass-panel" style="display: none;">
+          <div class="empty-icon-container">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
             </svg>
           </div>
-          <h3>No past papers found</h3>
-          <p id="empty-state-message">Add paper PDFs inside your subject and year directories on GitHub to view them here.</p>
+          <h3>No papers match your filters</h3>
+          <p id="empty-state-message">We couldn't find any documents matching your current selection. Try resetting your search or expanding the filter options.</p>
+          <button id="reset-filters-btn" class="reset-blue-btn">Show All Past Papers</button>
         </div>
 
-        <!-- Accordion tree layout for matching papers -->
-        <div class="accordions-container" id="papers-grid-list" style="display: none;">
-          <!-- Dynamically populated accordions -->
+        <!-- Flat list for matching documents -->
+        <div class="documents-list" id="papers-list-container">
+          <!-- Dynamically populated document rows -->
         </div>
 
       </section>
 
     </main>
 
-    <!-- Footer -->
+    <!-- Bottom Guide Cards & Footer -->
+    <section class="bottom-guide-section">
+      <div class="guide-box glass-panel">
+        <h3 class="guide-box-title">
+          <span class="info-icon-glow">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+          </span>
+          EDEXCEL CODING GUIDE
+        </h3>
+        <p>Files with an <strong>'R'</strong> (e.g., <code>1HR</code>, <code>2FR</code>) represent papers written in regional time zones. <strong>'MS'</strong> helps you check answers, and <strong>'ER'</strong> provides analysis of student performance from examiners.</p>
+      </div>
+    </section>
+
     <footer class="app-footer">
-      <p>Made with 💜 for IGCSE Exam Practice | Good luck in the October Exam Series!</p>
+      <div class="footer-left">
+        <p>⚠️ <strong>Disclaimer:</strong> This application is an independent community resources repository. Edexcel, Pearson Edexcel, and International GCSE are registered trademarks of Pearson Education Limited or their respective owners. This platform is not affiliated with, sponsored by, or endorsed by Pearson plc.</p>
+        <p class="copyright-text">© 2026 Edexcel IGCSE Past Papers Hub. All rights reserved.</p>
+      </div>
+      <div class="footer-right">
+        <a href="mailto:educationkyawmyonaing@gmail.com" class="contact-email">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          Contact Webmaster
+          <span>educationkyawmyonaing@gmail.com</span>
+        </a>
+      </div>
     </footer>
 
   </div>
