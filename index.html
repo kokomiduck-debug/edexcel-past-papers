@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edexcel International GCSE Past Papers Space</title>
+  
+  <!-- Modern Typography from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Glowing Blobs for Aesthetics -->
+  <div class="glow-bg">
+    <div class="blob blob-purple"></div>
+    <div class="blob blob-blue"></div>
+  </div>
+
+  <div class="app-container">
+    
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1>IGCSE Past Paper Space</h1>
+          <p>October Series Exam Prep Assistant</p>
+        </div>
+      </div>
+      <div class="stats-badge">
+        <span id="total-papers-count">0</span> Papers Uploaded
+      </div>
+    </header>
+
+    <!-- Main Workspace Dashboard -->
+    <main class="dashboard-main">
+      
+      <!-- Left sidebar: Controls & Upload Instructions -->
+      <aside class="sidebar">
+        
+        <!-- Search & Subject Quick Filters -->
+        <div class="control-panel glass-panel">
+          <h2>Find Papers</h2>
+          
+          <!-- Search box -->
+          <div class="search-box">
+            <span class="search-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </span>
+            <input type="text" id="search-input" placeholder="Search by paper name, subject, or year..." autocomplete="off">
+            <button id="clear-search" class="clear-btn" aria-label="Clear search" style="display: none;">
+              &times;
+            </button>
+          </div>
+
+          <!-- Subject filter buttons -->
+          <div class="subject-filter-container">
+            <h3>Filter by Subject</h3>
+            <div class="subject-buttons-grid">
+              <button class="subject-tag active" data-subject="all">
+                <span class="subject-tag-code">ALL</span>
+                <span class="subject-tag-name">All Subjects</span>
+              </button>
+              
+              <button class="subject-tag" data-subject="4AC1">
+                <span class="subject-tag-code">4AC1</span>
+                <span class="subject-tag-name">Accounting</span>
+              </button>
+              
+              <button class="subject-tag" data-subject="4CH1">
+                <span class="subject-tag-code">4CH1</span>
+                <span class="subject-tag-name">Chemistry</span>
+              </button>
+              
+              <button class="subject-tag" data-subject="4EC1">
+                <span class="subject-tag-code">4EC1</span>
+                <span class="subject-tag-name">Economics</span>
+              </button>
+              
+              <button class="subject-tag" data-subject="4EB1">
+                <span class="subject-tag-code">4EB1</span>
+                <span class="subject-tag-name">English Language B</span>
+              </button>
+              
+              <button class="subject-tag" data-subject="4XES2">
+                <span class="subject-tag-code">4XES2</span>
+                <span class="subject-tag-name">English as Second Lang 0</span>
+              </button>
+              
+              <button class="subject-tag" data-subject="4ET1">
+                <span class="subject-tag-code">4ET1</span>
+                <span class="subject-tag-name">English Literature</span>
+              </button>
+              
+              <button class="subject-tag" data-subject="4PM1">
+                <span class="subject-tag-code">4PM1</span>
+                <span class="subject-tag-name">Further Pure Math</span>
+              </button>
+              
+              <button class="subject-tag" data-subject="4MA1">
+                <span class="subject-tag-code">4MA1</span>
+                <span class="subject-tag-name">Mathematics A</span>
+              </button>
+              
+              <button class="subject-tag" data-subject="4MB1">
+                <span class="subject-tag-code">4MB1</span>
+                <span class="subject-tag-name">Mathematics B</span>
+              </button>
+              
+              <button class="subject-tag" data-subject="4PH1">
+                <span class="subject-tag-code">4PH1</span>
+                <span class="subject-tag-name">Physics</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Help accordion: How to upload past papers -->
+        <div class="help-panel glass-panel">
+          <button class="help-header-btn" id="toggle-help-btn">
+            <span>How to Upload New Papers</span>
+            <span class="chevron-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </span>
+          </button>
+          <div class="help-content" id="help-content-panel">
+            <div class="guide-steps">
+              <div class="guide-step">
+                <span class="step-num">1</span>
+                <div class="step-text">
+                  <strong>Open GitHub:</strong> Go to your GitHub website repository.
+                </div>
+              </div>
+              
+              <div class="guide-step">
+                <span class="step-num">2</span>
+                <div class="step-text">
+                  <strong>Navigate:</strong> Open the <code>papers/</code> folder, then select a subject folder (e.g. <code>4CH1 Chemistry</code>).
+                </div>
+              </div>
+              
+              <div class="guide-step">
+                <span class="step-num">3</span>
+                <div class="step-text">
+                  <strong>Create Year Folder (If new):</strong> Click "Add file" &rarr; "Create new file". Type the year followed by a slash (e.g., <code>2023/</code>) to create a year folder, name it <code>.gitkeep</code>, and click commit.
+                </div>
+              </div>
+              
+              <div class="guide-step">
+                <span class="step-num">4</span>
+                <div class="step-text">
+                  <strong>Upload PDFs:</strong> Enter the year folder, click "Add file" &rarr; "Upload files", then drag and drop your paper PDF files.
+                </div>
+              </div>
+              
+              <div class="guide-step">
+                <span class="step-num">5</span>
+                <div class="step-text">
+                  <strong>Commit & Update:</strong> Click "Commit changes". Vercel will rebuild the site, and they'll show up here automatically!
+                </div>
+              </div>
+            </div>
+
+            <div class="naming-tip">
+              <strong>💡 File Naming Tip:</strong>
+              <p>For beautiful auto-generated paper titles, name your PDFs in the Edexcel format:<br>
+              <code>[SubjectCode]_[Paper]_[DocType]_[Date].pdf</code><br>
+              E.g., <code>4CH1_1C_que_20230518.pdf</code> will appear as:<br>
+              <strong>Paper 1C - Question Paper (June 2023)</strong>
+              </p>
+              <ul>
+                <li><code>que</code> / <code>qp</code> = Question Paper</li>
+                <li><code>msc</code> / <code>ms</code> = Mark Scheme</li>
+                <li><code>rms</code> = Regional Mark Scheme</li>
+                <li><code>er</code> = Examiner Report</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- Right contents: Past papers display -->
+      <section class="content-section">
+        
+        <!-- Year filter tabs -->
+        <div class="year-tabs-container glass-panel">
+          <span class="filter-label">Year:</span>
+          <div class="tabs-scroll" id="year-tabs-list">
+            <!-- Dynamically populated, with 'All' active -->
+            <button class="year-tab active" data-year="all">All Years</button>
+          </div>
+        </div>
+
+        <!-- Papers grid -->
+        <div class="papers-grid-header">
+          <h2 id="current-filter-title">All Papers</h2>
+          <span id="filtered-count" class="count-indicator">Showing 0 papers</span>
+        </div>
+
+        <!-- Error/Empty state placeholder -->
+        <div id="no-papers-placeholder" class="empty-state glass-panel">
+          <div class="empty-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="9" y1="15" x2="15" y2="15"></line>
+              <line x1="9" y1="11" x2="15" y2="11"></line>
+              <line x1="9" y1="18" x2="10" y2="18"></line>
+            </svg>
+          </div>
+          <h3>No past papers found</h3>
+          <p id="empty-state-message">Add paper PDFs inside your subject and year directories on GitHub to view them here.</p>
+        </div>
+
+        <!-- Accordion tree layout for matching papers -->
+        <div class="accordions-container" id="papers-grid-list" style="display: none;">
+          <!-- Dynamically populated accordions -->
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>Made with 💜 for IGCSE Exam Practice | Good luck in the October Exam Series!</p>
+    </footer>
+
+  </div>
+
+  <!-- Client-side Logic Script -->
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "name": "edexcel-igcse-past-papers",
+  "version": "1.0.0",
+  "description": "Edexcel International GCSE Past Papers Repository",
+  "main": "main.js",
+  "scripts": {
+    "build": "node scripts/generate-catalog.js"
+  },
+  "keywords": [
+    "edexcel",
+    "igcse",
+    "past-papers"
+  ],
+  "author": "",
+  "license": "ISC"
+}
