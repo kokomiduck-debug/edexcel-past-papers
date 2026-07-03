@@ -169,7 +169,6 @@ function renderSubjectsList() {
   allBtn.setAttribute('data-subject', 'all');
   allBtn.innerHTML = `
     <span class="filter-item-text">All Subjects</span>
-    <span class="count-badge">${allCount}</span>
   `;
   allBtn.addEventListener('click', () => {
     selectSubject('all');
@@ -273,8 +272,8 @@ function selectYear(year) {
 
 // Filter the master list and render the matching documents
 function filterAndRender() {
-  // If no subject is selected (activeSubject is 'all'), show a selection placeholder
-  if (activeSubject === 'all') {
+  // If no subject is selected and no search query is typed, show the select subject prompt
+  if (activeSubject === 'all' && !searchQuery) {
     papersListContainer.style.display = 'none';
     noPapersPlaceholder.style.display = 'flex';
     
@@ -325,11 +324,12 @@ function filterAndRender() {
     // Exam Session filter
     const matchesSession = (activeSession === 'all' || paper.session === activeSession);
     
-    // Text search filter
+    // Text search filter (split by spaces and commas, all keywords must match)
     let matchesSearch = true;
     if (searchQuery) {
+      const searchTerms = searchQuery.split(/[\s,]+/).filter(t => t.length > 0);
       const matchText = `${paper.displayName} ${paper.subjectName} ${paper.subjectCode} ${paper.year} ${paper.session} ${paper.fileName}`.toLowerCase();
-      matchesSearch = matchText.includes(searchQuery);
+      matchesSearch = searchTerms.every(term => matchText.includes(term));
     }
     
     return matchesSubject && matchesYear && matchesType && matchesSession && matchesSearch;
