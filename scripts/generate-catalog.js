@@ -69,8 +69,20 @@ function parsePaperDetails(absoluteFilePath) {
     // Check if first part matches or is similar to subject code
     const fileSubjectCode = parts[0];
     
-    // The second part is usually the paper, like 1C, 2C, 1H, 2H, 1P, 2P, 1R, 2R, 1B, 2B
-    paperCode = parts[1].toUpperCase();
+    // The second part is usually the paper, like 1C, 2C, 1H, 2H, 1P, 2P, 1, 2, Paper 1, Paper 2
+    let paperPart = parts[1].trim();
+    const paperMatch = paperPart.match(/^paper\s*(\d+)$/i);
+    if (paperMatch) {
+      paperCode = `Paper ${parseInt(paperMatch[1], 10)}`;
+    } else if (paperPart.match(/^\d+$/)) {
+      paperCode = `Paper ${parseInt(paperPart, 10)}`;
+    } else if (paperPart.match(/^(\d+)([a-zA-Z]+)$/)) {
+      const num = paperPart.match(/^(\d+)/)[0];
+      const letters = paperPart.match(/([a-zA-Z]+)$/)[0].toUpperCase();
+      paperCode = `Paper ${parseInt(num, 10)} (${num}${letters})`;
+    } else {
+      paperCode = paperPart.toUpperCase();
+    }
 
     // The third part is document type, like que (question paper), msc (mark scheme), rms (regional mark scheme), er (examiner report)
     const rawDocType = parts[2].toLowerCase();
@@ -119,7 +131,8 @@ function parsePaperDetails(absoluteFilePath) {
 
   // If we successfully parsed the parts, build a beautiful display name
   if (paperCode && docType) {
-    displayName = `Paper ${paperCode} - ${docType}`;
+    const paperLabel = paperCode.startsWith('Paper') ? paperCode : `Paper ${paperCode}`;
+    displayName = `${paperLabel} - ${docType}`;
     if (examSeries) {
       displayName += ` (${examSeries})`;
     } else if (yearFolder !== 'Other') {
