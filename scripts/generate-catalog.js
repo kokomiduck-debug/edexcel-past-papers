@@ -21,7 +21,6 @@ function scanDir(dirPath) {
     if (stat && stat.isDirectory()) {
       results = results.concat(scanDir(filePath));
     } else {
-      // Only include files (ignore hidden files and .gitkeep)
       if (!file.startsWith('.') && file !== '.gitkeep') {
         results.push(filePath);
       }
@@ -31,18 +30,16 @@ function scanDir(dirPath) {
   return results;
 }
 
-// Helper to clean up filenames and make them human readable
+// Helper to clean up filenames and parse details
 function parsePaperDetails(absoluteFilePath) {
   const relativePath = path.relative(path.join(__dirname, '..'), absoluteFilePath);
-  const pathParts = relativePath.split(path.sep); // e.g. ["papers", "4CH1 Chemistry", "2023", "filename.pdf"]
+  const pathParts = relativePath.split(path.sep); // e.g. ["papers", "4CH1 Chemistry", "May June 2026", "filename.pdf"]
   
-  // Basic info from folder structure
   const subjectFolder = pathParts[1] || 'Unknown Subject';
   const yearFolder = pathParts[2] || 'Other';
   const filename = pathParts[3] || path.basename(absoluteFilePath);
   
   // Extract Subject Code and Subject Name
-  // Subject folders are named like "4CH1 Chemistry" or "4MA1 Mathematics A"
   let subjectCode = '';
   let subjectName = subjectFolder;
   const subjectMatch = subjectFolder.match(/^([A-Z0-9]+)\s+(.+)$/);
@@ -51,25 +48,37 @@ function parsePaperDetails(absoluteFilePath) {
     subjectName = subjectMatch[2];
   }
 
-  // Parse filename to see if it fits Edexcel's pattern: [SubjectCode]_[PaperCode]_[DocType]_[Date].pdf
-  // Example: 4CH1_1C_que_20230518.pdf
+  // Parse Year and Session from the folder name (e.g. "May June 2026" or "January 2019")
+  let year = 'Other';
+  let session = 'Other';
+  const folderMatch = yearFolder.match(/^(May June|January|November)\s+(\d{4})$/i);
+  if (folderMatch) {
+    const rawSession = folderMatch[1].toLowerCase();
+    year = folderMatch[2];
+    if (rawSession === 'may june') session = 'May/June';
+    else if (rawSession === 'january') session = 'January';
+    else if (rawSession === 'november') session = 'November';
+  } else if (yearFolder.match(/^\d{4}$/)) {
+    year = yearFolder;
+    session = 'Other';
+  } else {
+    year = yearFolder;
+  }
+
+  // Parse filename details
   const ext = path.extname(filename);
   const baseNameWithoutExt = path.basename(filename, ext);
   
   let displayName = baseNameWithoutExt;
   let paperCode = '';
-  let docType = 'Document';
-  let examSeries = ''; // e.g. "January 2023" or "June 2023"
+  let docTypeLabel = 'Document';
+  let docTypeCategory = 'Other'; // QP, MS, ER, GB, Other
+  let examSeries = ''; // parsed from filename date if available
 
-  // Check if filename fits the standard Edexcel past paper pattern
-  // Pattern: CODE_PAPER_TYPE_DATE (e.g., 4CH1_1C_que_20230518) or 4MA1_1H_msc_20240115
   const parts = baseNameWithoutExt.split('_');
   
   if (parts.length >= 3) {
-    // Check if first part matches or is similar to subject code
-    const fileSubjectCode = parts[0];
-    
-    // The second part is usually the paper, like 1C, 2C, 1H, 2H, 1P, 2P, 1, 2, Paper 1, Paper 2
+    // 1. Paper variant / code (e.g., 1C, 2C, 1H, 2H, 1P, 2P, 1, 2)
     let paperPart = parts[1].trim();
     const paperMatch = paperPart.match(/^paper\s*(\d+)$/i);
     if (paperMatch) {
@@ -84,68 +93,98 @@ function parsePaperDetails(absoluteFilePath) {
       paperCode = paperPart.toUpperCase();
     }
 
-    // The third part is document type, like que (question paper), msc (mark scheme), rms (regional mark scheme), er (examiner report)
+    // 2. Document type
     const rawDocType = parts[2].toLowerCase();
     switch (rawDocType) {
       case 'que':
       case 'qp':
-        docType = 'Question Paper';
+        docTypeLabel = 'Question Paper';
+        docTypeCategory = 'QP';
         break;
       case 'msc':
       case 'ms':
-        docType = 'Mark Scheme';
+        docTypeLabel = 'Mark Scheme';
+        docTypeCategory = 'MS';
         break;
       case 'rms':
-        docType = 'Regional Mark Scheme';
+        docTypeLabel = 'Regional Mark Scheme';
+        docTypeCategory = 'MS';
         break;
       case 'er':
-        docType = 'Examiner Report';
+        docTypeLabel = 'Examiner Report';
+        docTypeCategory = 'ER';
+        break;
+      case 'gb':
+        docTypeLabel = 'Grade Boundaries';
+        docTypeCategory = 'GB';
         break;
       case 'lts':
-        docType = 'Listening Transcript';
+        docTypeLabel = 'Listening Transcript';
+        docTypeCategory = 'Other';
         break;
       default:
-        docType = rawDocType.toUpperCase();
+        docTypeLabel = rawDocType.toUpperCase();
+        docTypeCategory = 'Other';
     }
 
-    // The fourth part is often a date or year, e.g. 20230518
+    // 3. Exam date extraction for series override
     if (parts[3] && parts[3].match(/^\d{8}$/)) {
       const dateStr = parts[3];
-      const year = dateStr.substring(0, 4);
-      const month = dateStr.substring(4, 6);
+      const fileYear = dateStr.substring(0, 4);
+      const fileMonth = dateStr.substring(4, 6);
       
       let seriesMonth = '';
-      if (month === '01') {
+      if (fileMonth === '01') {
         seriesMonth = 'January';
-      } else if (month === '05' || month === '06') {
+        if (session === 'Other') session = 'January';
+      } else if (fileMonth === '05' || fileMonth === '06') {
         seriesMonth = 'June';
-      } else if (month === '10' || month === '11') {
+        if (session === 'Other') session = 'May/June';
+      } else if (fileMonth === '10' || fileMonth === '11') {
         seriesMonth = 'October';
+        if (session === 'Other') session = 'November';
       } else {
         seriesMonth = 'Series';
       }
       
-      examSeries = `${seriesMonth} ${year}`;
+      examSeries = `${seriesMonth} ${fileYear}`;
+      if (year === 'Other') year = fileYear;
+    }
+  } else {
+    // FALLBACK: Match keywords in filenames if they don't use underscores
+    const lowerFilename = baseNameWithoutExt.toLowerCase();
+    
+    if (lowerFilename.includes('mark') || lowerFilename.includes('scheme') || lowerFilename.includes('ms')) {
+      docTypeLabel = 'Mark Scheme';
+      docTypeCategory = 'MS';
+    } else if (lowerFilename.includes('question') || lowerFilename.includes('paper') || lowerFilename.includes('qp')) {
+      docTypeLabel = 'Question Paper';
+      docTypeCategory = 'QP';
+    } else if (lowerFilename.includes('examiner') || lowerFilename.includes('report') || lowerFilename.includes('er')) {
+      docTypeLabel = 'Examiner Report';
+      docTypeCategory = 'ER';
+    } else if (lowerFilename.includes('boundary') || lowerFilename.includes('boundaries') || lowerFilename.includes('gb')) {
+      docTypeLabel = 'Grade Boundaries';
+      docTypeCategory = 'GB';
     }
   }
 
-  // If we successfully parsed the parts, build a beautiful display name
-  if (paperCode && docType) {
+  // Format display title
+  if (paperCode && docTypeLabel) {
     const paperLabel = paperCode.startsWith('Paper') ? paperCode : `Paper ${paperCode}`;
-    displayName = `${paperLabel} - ${docType}`;
+    displayName = `${paperLabel} - ${docTypeLabel}`;
     if (examSeries) {
       displayName += ` (${examSeries})`;
     } else if (yearFolder !== 'Other') {
       displayName += ` (${yearFolder})`;
     }
   } else {
-    // If not standard Edexcel format, just clean up the name nicely
     displayName = baseNameWithoutExt
-      .replace(/[_-]/g, ' ') // replace underscores/dashes with spaces
-      .replace(/\b\w/g, c => c.toUpperCase()); // capitalize words
+      .replace(/[_-]/g, ' ')
+      .replace(/\b\w/g, c => c.toUpperCase());
   }
 
-  // Get file size in bytes and convert to human readable format
+  // Get file size
   let fileSize = 'Unknown Size';
   try {
     const stats = fs.statSync(absoluteFilePath);
@@ -158,11 +197,14 @@ function parsePaperDetails(absoluteFilePath) {
   return {
     subjectCode,
     subjectName,
-    year: yearFolder,
+    year,
+    session,
+    docTypeLabel,
+    docTypeCategory,
     fileName: filename,
     fileExtension: ext.replace('.', '').toUpperCase(),
     fileSize,
-    filePath: relativePath.replace(/\\/g, '/'), // Use forward slashes for URLs
+    filePath: relativePath.replace(/\\/g, '/'),
     displayName
   };
 }
@@ -176,13 +218,16 @@ function generateCatalog() {
     return parsePaperDetails(file);
   });
 
-  // Sort catalog by Subject, then Year (descending), then Paper Name
+  // Sort by Subject Name, Year (descending), Session (descending), Document Title
   catalog.sort((a, b) => {
     if (a.subjectName !== b.subjectName) {
       return a.subjectName.localeCompare(b.subjectName);
     }
     if (a.year !== b.year) {
-      return b.year.localeCompare(a.year); // Descending order for years (e.g. 2024 first)
+      return b.year.localeCompare(a.year);
+    }
+    if (a.session !== b.session) {
+      return b.session.localeCompare(a.session);
     }
     return a.displayName.localeCompare(b.displayName);
   });
