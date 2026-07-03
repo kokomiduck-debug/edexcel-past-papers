@@ -273,6 +273,44 @@ function selectYear(year) {
 
 // Filter the master list and render the matching documents
 function filterAndRender() {
+  // If no subject is selected (activeSubject is 'all'), show a selection placeholder
+  if (activeSubject === 'all') {
+    papersListContainer.style.display = 'none';
+    noPapersPlaceholder.style.display = 'flex';
+    
+    // Render "Select a Subject" prompt
+    noPapersPlaceholder.innerHTML = `
+      <div class="empty-icon-container">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+        </svg>
+      </div>
+      <h3>Select a subject to begin</h3>
+      <p>Choose a subject from the left sidebar to start browsing and downloading past papers.</p>
+    `;
+    
+    currentFilterTitle.textContent = "All Past Papers";
+    filteredCountIndicator.textContent = "0 documents";
+    return;
+  }
+
+  // Restore default empty state layout in case it was modified by the placeholder above
+  noPapersPlaceholder.innerHTML = `
+    <div class="empty-icon-container">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="16" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+      </svg>
+    </div>
+    <h3>No papers match your filters</h3>
+    <p id="empty-state-message">We couldn't find any documents matching your current selection. Try resetting your search or expanding the filter options.</p>
+    <button id="reset-filters-btn" class="reset-blue-btn">Show All Past Papers</button>
+  `;
+  
+  // Re-bind click listener on the dynamically restored reset button
+  document.getElementById('reset-filters-btn').addEventListener('click', resetAllFilters);
+
   // 1. Apply active filter rules
   const filteredPapers = papersData.filter(paper => {
     // Subject filter
