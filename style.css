@@ -916,6 +916,13 @@ body {
   color: var(--text-muted);
 }
 
+.max-mark-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  margin-left: 0.15rem;
+}
+
 .score-num-input {
   width: 48px;
   text-align: center;

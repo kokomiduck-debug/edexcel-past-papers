@@ -29,6 +29,183 @@ function getCoverClass(code) {
   return classes[code] || 'cover-physics';
 }
 
+// Get Max Mark for a past paper variant
+function getPaperMaxMark(subjectCode, displayName) {
+  const name = displayName.toLowerCase();
+  
+  if (subjectCode === '4AC1') { // Accounting
+    if (name.includes('paper 1') || name.includes('1p') || name.includes('01')) return 100;
+    if (name.includes('paper 2') || name.includes('2p') || name.includes('02')) return 50;
+    return 100;
+  }
+  if (subjectCode === '4CH1') { // Chemistry
+    if (name.includes('paper 1') || name.includes('1c') || name.includes('1p')) return 110;
+    if (name.includes('paper 2') || name.includes('2c') || name.includes('2p')) return 70;
+    return 110;
+  }
+  if (subjectCode === '4EC1') { // Economics
+    if (name.includes('paper 1') || name.includes('1c') || name.includes('01')) return 80;
+    if (name.includes('paper 2') || name.includes('2c') || name.includes('02')) return 80;
+    return 80;
+  }
+  if (subjectCode === '4EB1') { // English Language B
+    return 100;
+  }
+  if (subjectCode === '4ET1') { // English Literature
+    if (name.includes('paper 1') || name.includes('1p') || name.includes('01')) return 90;
+    if (name.includes('paper 2') || name.includes('2p') || name.includes('02')) return 60;
+    return 90;
+  }
+  if (subjectCode === '4XES2') { // ESL
+    if (name.includes('reading') || name.includes('unit 1')) return 60;
+    if (name.includes('listening') || name.includes('unit 2')) return 60;
+    if (name.includes('writing') || name.includes('unit 3')) return 60;
+    if (name.includes('speaking') || name.includes('unit 4')) return 60;
+    return 60;
+  }
+  if (subjectCode === '4PM1') { // Further Pure Mathematics
+    if (name.includes('paper 1') || name.includes('1p') || name.includes('01')) return 100;
+    if (name.includes('paper 2') || name.includes('2p') || name.includes('02')) return 100;
+    return 100;
+  }
+  if (subjectCode === '4MA1') { // Mathematics A Higher
+    if (name.includes('paper 1') || name.includes('1h')) return 100;
+    if (name.includes('paper 2') || name.includes('2h')) return 100;
+    return 100;
+  }
+  if (subjectCode === '4MB1') { // Mathematics B
+    if (name.includes('paper 1') || name.includes('1p') || name.includes('01')) return 100;
+    if (name.includes('paper 2') || name.includes('2p') || name.includes('02')) return 200;
+    return 100;
+  }
+  if (subjectCode === '4PH1') { // Physics
+    if (name.includes('paper 1') || name.includes('1p') || name.includes('01')) return 110;
+    if (name.includes('paper 2') || name.includes('2p') || name.includes('02')) return 70;
+    return 110;
+  }
+  return 100; // default fallback
+}
+
+// Calculate Grade Band based on Edexcel cash-in UMS/raw overall boundaries
+function calculateGrade(subjectCode, totalScore) {
+  const boundaries = {
+    '4AC1': [
+      { grade: '9', mark: 125 },
+      { grade: '8', mark: 112 },
+      { grade: '7', mark: 100 },
+      { grade: '6', mark: 84 },
+      { grade: '5', mark: 69 },
+      { grade: '4', mark: 54 },
+      { grade: '3', mark: 40 },
+      { grade: '2', mark: 26 },
+      { grade: '1', mark: 12 }
+    ],
+    '4CH1': [
+      { grade: '9', mark: 136 },
+      { grade: '8', mark: 114 },
+      { grade: '7', mark: 92 },
+      { grade: '6', mark: 79 },
+      { grade: '5', mark: 67 },
+      { grade: '4', mark: 55 },
+      { grade: '3', mark: 43 },
+      { grade: '2', mark: 32 },
+      { grade: '1', mark: 21 }
+    ],
+    '4EC1': [
+      { grade: '9', mark: 117 },
+      { grade: '8', mark: 107 },
+      { grade: '7', mark: 98 },
+      { grade: '6', mark: 90 },
+      { grade: '5', mark: 83 },
+      { grade: '4', mark: 76 },
+      { grade: '3', mark: 64 },
+      { grade: '2', mark: 52 },
+      { grade: '1', mark: 40 }
+    ],
+    '4EB1': [
+      { grade: '9', mark: 69 },
+      { grade: '8', mark: 63 },
+      { grade: '7', mark: 58 },
+      { grade: '6', mark: 54 },
+      { grade: '5', mark: 51 },
+      { grade: '4', mark: 48 },
+      { grade: '3', mark: 37 },
+      { grade: '2', mark: 27 },
+      { grade: '1', mark: 17 }
+    ],
+    '4ET1': [
+      { grade: '9', mark: 124 },
+      { grade: '8', mark: 116 },
+      { grade: '7', mark: 109 },
+      { grade: '6', mark: 95 },
+      { grade: '5', mark: 82 },
+      { grade: '4', mark: 69 },
+      { grade: '3', mark: 52 },
+      { grade: '2', mark: 35 },
+      { grade: '1', mark: 18 }
+    ],
+    '4XES2': [
+      { grade: '9', mark: 216 },
+      { grade: '8', mark: 192 },
+      { grade: '7', mark: 168 },
+      { grade: '6', mark: 144 },
+      { grade: '5', mark: 120 },
+      { grade: '4', mark: 96 },
+      { grade: '3', mark: 72 },
+      { grade: '2', mark: 48 },
+      { grade: '1', mark: 24 }
+    ],
+    '4PM1': [
+      { grade: '9', mark: 166 },
+      { grade: '8', mark: 141 },
+      { grade: '7', mark: 117 },
+      { grade: '6', mark: 93 },
+      { grade: '5', mark: 70 },
+      { grade: '4', mark: 47 },
+      { grade: '3', mark: 35 }
+    ],
+    '4MA1': [
+      { grade: '9', mark: 166 },
+      { grade: '8', mark: 136 },
+      { grade: '7', mark: 107 },
+      { grade: '6', mark: 86 },
+      { grade: '5', mark: 65 },
+      { grade: '4', mark: 45 },
+      { grade: '3', mark: 35 }
+    ],
+    '4MB1': [
+      { grade: '9', mark: 247 },
+      { grade: '8', mark: 211 },
+      { grade: '7', mark: 176 },
+      { grade: '6', mark: 145 },
+      { grade: '5', mark: 114 },
+      { grade: '4', mark: 84 },
+      { grade: '3', mark: 69 }
+    ],
+    '4PH1': [
+      { grade: '9', mark: 140 },
+      { grade: '8', mark: 125 },
+      { grade: '7', mark: 110 },
+      { grade: '6', mark: 100 },
+      { grade: '5', mark: 90 },
+      { grade: '4', mark: 80 },
+      { grade: '3', mark: 64 },
+      { grade: '2', mark: 49 },
+      { grade: '1', mark: 34 }
+    ]
+  };
+
+  const list = boundaries[subjectCode];
+  if (!list) return '';
+
+  for (let i = 0; i < list.length; i++) {
+    if (totalScore >= list[i].mark) {
+      return list[i].grade;
+    }
+  }
+  return 'U';
+}
+
 // Application State
 let papersData = [];
 let activeCourses = []; // Activated subject codes
@@ -528,6 +705,8 @@ function renderPapersList() {
         `;
       }
 
+      const maxMark = getPaperMaxMark(variant.subjectCode, vLabel);
+
       card.innerHTML = `
         <h4 class="paper-variant-card-title">${vLabel}</h4>
         <span class="paper-variant-card-subtitle">${subInfo}</span>
@@ -537,8 +716,7 @@ function renderPapersList() {
           <span class="score-label">Your score</span>
           <div class="score-inputs">
             <input type="text" class="score-num-input score-val-field" value="${scoreVal}" placeholder="-">
-            <span>/</span>
-            <input type="text" class="score-num-input score-total-field" value="${totalVal}">
+            <span class="max-mark-label">/ ${maxMark}</span>
           </div>
         </div>
 
@@ -552,16 +730,13 @@ function renderPapersList() {
 
       // Score input fields keyup changes
       const valField = card.querySelector('.score-val-field');
-      const totalField = card.querySelector('.score-total-field');
 
       const onScoreInput = () => {
         const score = valField.value.trim();
-        const total = totalField.value.trim();
-        savePaperScore(variant.subjectCode, yearKey, vLabel, score, total);
+        savePaperScore(variant.subjectCode, yearKey, vLabel, score, maxMark);
       };
 
       valField.addEventListener('input', onScoreInput);
-      totalField.addEventListener('input', onScoreInput);
 
       // Collapsible Menu Expand toggle click
       const collBtn = card.querySelector('.collapse-trigger-btn');
@@ -652,16 +827,32 @@ function updateYearProgress(subjectCode, yearKey, containerBlock = null) {
   const totalVariants = Object.keys(yearGrouped).length;
   
   let completedCount = 0;
-  
+  let totalScore = 0;
+  let totalMax = 0;
+
   Object.keys(yearGrouped).forEach(vLabel => {
     const key = `score_${subjectCode}_${yearKey.replace(/\s+/g, '_')}_${vLabel.replace(/\s+/g, '_')}`;
-    const scoreVal = localStorage.getItem(key);
-    if (scoreVal) {
-      completedCount++;
+    const max = getPaperMaxMark(subjectCode, vLabel);
+    totalMax += max;
+    
+    const saved = localStorage.getItem(key);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed.score !== '') {
+          completedCount++;
+          totalScore += parseFloat(parsed.score) || 0;
+        }
+      } catch (e) {}
     }
   });
 
-  textEl.textContent = `${completedCount}/${totalVariants} completed`;
+  if (completedCount === totalVariants && totalVariants > 0) {
+    const grade = calculateGrade(subjectCode, totalScore);
+    textEl.innerHTML = `${completedCount}/${totalVariants} completed &bull; <strong>Score: ${totalScore}/${totalMax}</strong> &bull; <strong style="color:var(--primary-purple)">Grade: ${grade}</strong>`;
+  } else {
+    textEl.innerHTML = `${completedCount}/${totalVariants} completed &bull; Score: ${totalScore}/${totalMax} &bull; <span style="color:var(--text-muted)">Grade: Pending</span>`;
+  }
   
   const pct = totalVariants > 0 ? (completedCount / totalVariants) * 100 : 0;
   fillEl.style.width = `${pct}%`;
