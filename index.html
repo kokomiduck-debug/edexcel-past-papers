@@ -21,179 +21,332 @@
     <div class="blob blob-blue"></div>
   </div>
 
-  <div class="app-container">
+  <!-- Top Navigation Bar -->
+  <nav class="top-nav">
+    <div class="nav-left">
+      <a href="#" class="logo-container" id="logo-home-link">
+        <span class="logo-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+          </svg>
+        </span>
+        <div class="logo-text">
+          IGCSE Prep Space
+          <span>SaveMyExams Edition</span>
+        </div>
+      </a>
+      <div class="nav-links">
+        <a href="#" class="nav-link" id="nav-dashboard-link">Dashboard</a>
+      </div>
+    </div>
     
-    <!-- Top Header Banner Panel -->
-    <header class="app-header-banner glass-panel">
-      <h1>Find Edexcel IGCSE Past Papers Instantly</h1>
-      <p>Select a subject, filter by year or session, and download fully verified question papers, marking schemes, and reports.</p>
-      
-      <!-- Big Search box inside the header banner -->
-      <div class="search-box-container">
-        <span class="search-icon">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Global search inside the navbar -->
+    <div class="nav-center-search">
+      <div class="search-box">
+        <span class="search-box-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="11" cy="11" r="8"></circle>
             <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
           </svg>
         </span>
-        <input type="text" id="search-input" placeholder="Search by subject, code, year (e.g. Mathematics, 4MA1, 2023)..." autocomplete="off">
-        <button id="clear-search" class="clear-btn" aria-label="Clear search" style="display: none;">
-          &times;
-        </button>
+        <input type="text" id="global-search-input" placeholder="Search past papers across active courses..." autocomplete="off">
+        <button id="clear-search-btn" class="clear-search-btn" style="display: none;">&times;</button>
       </div>
-    </header>
+    </div>
+    
+    <div class="nav-right">
+      <button class="upgrade-btn">Upgrade to Premium</button>
+    </div>
+  </nav>
 
-    <!-- Main Workspace Dashboard Grid -->
-    <main class="dashboard-main">
-      
-      <!-- Left sidebar: Filter panels -->
-      <aside class="sidebar">
-        
-        <!-- SUBJECTS filter -->
-        <div class="filter-card glass-panel">
-          <h3>Subjects</h3>
-          <!-- Local search input inside sidebar -->
-          <div class="sidebar-search-box">
-            <span class="sidebar-search-icon">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"></circle>
-                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-              </svg>
-            </span>
-            <input type="text" id="subject-search-input" placeholder="Find a subject..." autocomplete="off">
-          </div>
-          
-          <div class="filter-list subjects-scroll-list" id="subjects-filter-list">
-            <button class="filter-item active" data-subject="all">
-              <span class="filter-item-text">All Subjects</span>
-              <span class="count-badge" id="count-all-subjects">0</span>
-            </button>
-            
-            <button class="filter-item" data-subject="4AC1">
-              <span class="filter-item-code">4AC1</span>
-              <span class="filter-item-text">Mathematics A</span> <!-- Wait, we will dynamically map code to text or render dynamically -->
-            </button>
-          </div>
-        </div>
-
-        <!-- EXAM YEAR filter -->
-        <div class="filter-card glass-panel">
-          <h3>Exam Year</h3>
-          <div class="years-grid" id="years-filter-grid">
-            <button class="year-btn active" data-year="all">All</button>
-            <!-- Dynamically populated year buttons -->
-          </div>
-        </div>
-
-        <!-- PAPER TYPE filter -->
-        <div class="filter-card glass-panel">
-          <h3>Paper Type</h3>
-          <div class="filter-list" id="paper-type-filter-list">
-            <button class="filter-item active" data-type="all">
-              <span class="filter-item-text">All Document Types</span>
-            </button>
-            <button class="filter-item" data-type="QP">
-              <span class="filter-item-text">Question Papers (QP)</span>
-            </button>
-            <button class="filter-item" data-type="MS">
-              <span class="filter-item-text">Mark Schemes (MS)</span>
-            </button>
-            <button class="filter-item" data-type="ER">
-              <span class="filter-item-text">Examiner Reports (ER)</span>
-            </button>
-            <button class="filter-item" data-type="GB">
-              <span class="filter-item-text">Grade Boundaries (GB)</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- EXAM SESSION filter -->
-        <div class="filter-card glass-panel">
-          <h3>Exam Session</h3>
-          <div class="filter-list" id="session-filter-list">
-            <button class="filter-item active" data-session="all">
-              <span class="filter-item-text">All Sessions</span>
-            </button>
-            <button class="filter-item" data-session="January">
-              <span class="filter-item-text">January</span>
-            </button>
-            <button class="filter-item" data-session="May/June">
-              <span class="filter-item-text">May/June</span>
-            </button>
-            <button class="filter-item" data-session="November">
-              <span class="filter-item-text">November</span>
-            </button>
-          </div>
-        </div>
-
-      </aside>
-
-      <!-- Right contents: Documents flat list -->
-      <section class="content-section">
-        
-        <!-- Results header strip -->
-        <div class="results-header-strip glass-panel">
-          <h2 id="current-filter-title">All Past Papers</h2>
-          <span id="filtered-count" class="count-indicator">0 documents</span>
-        </div>
-
-        <!-- Error/Empty state placeholder -->
-        <div id="no-papers-placeholder" class="empty-state glass-panel" style="display: none;">
-          <div class="empty-icon-container">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="16" x2="12" y2="12"></line>
-              <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
-          </div>
-          <h3>No papers match your filters</h3>
-          <p id="empty-state-message">We couldn't find any documents matching your current selection. Try resetting your search or expanding the filter options.</p>
-          <button id="reset-filters-btn" class="reset-blue-btn">Show All Past Papers</button>
-        </div>
-
-        <!-- Flat list for matching documents -->
-        <div class="documents-list" id="papers-list-container">
-          <!-- Dynamically populated document rows -->
-        </div>
-
-      </section>
-
-    </main>
-
-    <!-- Bottom Guide Cards & Footer -->
-    <section class="bottom-guide-section">
-      <div class="guide-box glass-panel">
-        <h3 class="guide-box-title">
-          <span class="info-icon-glow">
+  <!-- Main Workspace Frame -->
+  <div class="workspace-frame">
+    
+    <!-- Left Sidebar Menu -->
+    <aside class="left-sidebar">
+      <div class="sidebar-menu">
+        <span class="sidebar-title">Menu</span>
+        <button class="sidebar-item active" id="sidebar-dashboard-btn">
+          <span class="sidebar-item-icon">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="16" x2="12" y2="12"></line>
-              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              <rect x="3" y="3" width="7" height="9"></rect>
+              <rect x="14" y="3" width="7" height="5"></rect>
+              <rect x="14" y="12" width="7" height="9"></rect>
+              <rect x="3" y="16" width="7" height="5"></rect>
             </svg>
           </span>
-          EDEXCEL CODING GUIDE
-        </h3>
-        <p>Files with an <strong>'R'</strong> (e.g., <code>1HR</code>, <code>2FR</code>) represent papers written in regional time zones. <strong>'MS'</strong> helps you check answers, and <strong>'ER'</strong> provides analysis of student performance from examiners.</p>
+          Dashboard
+        </button>
+        
+        <span class="sidebar-title" id="course-menu-title" style="display: none;">Course</span>
+        <button class="sidebar-item" id="sidebar-resources-btn" style="display: none;">
+          <span class="sidebar-item-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5v-15z"></path>
+            </svg>
+          </span>
+          Course Resources
+        </button>
+        <button class="sidebar-item" id="sidebar-papers-btn" style="display: none;">
+          <span class="sidebar-item-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </span>
+          Past Papers
+        </button>
       </div>
-    </section>
-
-    <footer class="app-footer">
-      <div class="footer-left">
-        <p>⚠️ <strong>Disclaimer:</strong> This application is an independent community resources repository. Edexcel, Pearson Edexcel, and International GCSE are registered trademarks of Pearson Education Limited or their respective owners. This platform is not affiliated with, sponsored by, or endorsed by Pearson plc.</p>
-        <p class="copyright-text">© 2026 Edexcel IGCSE Past Papers Hub. All rights reserved.</p>
-      </div>
-      <div class="footer-right">
-        <a href="mailto:educationkyawmyonaing@gmail.com" class="contact-email">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-            <polyline points="22,6 12,13 2,6"></polyline>
-          </svg>
-          Contact Webmaster
-          <span>educationkyawmyonaing@gmail.com</span>
+      
+      <!-- Sidebar Bottom items -->
+      <div class="sidebar-bottom">
+        <a href="#" class="sidebar-item">
+          <span class="sidebar-item-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </span>
+          Profile
         </a>
+        <a href="#" class="sidebar-item">
+          <span class="sidebar-item-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          </span>
+          Settings
+        </a>
+        
+        <!-- Interactive Theme Mode toggle button -->
+        <div class="theme-toggle-container">
+          <span class="theme-toggle-label">Theme Mode</span>
+          <button class="theme-toggle-btn" id="theme-toggle-btn" title="Toggle Theme (Light / Dark)">
+            <span id="theme-icon">
+              <!-- Dark moon icon as default light-mode indicator -->
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </span>
+          </button>
+        </div>
       </div>
-    </footer>
+    </aside>
 
+    <!-- Main Content Area wrapper -->
+    <main class="main-content">
+      
+      <!-- ---------------------------------------------------- -->
+      <!-- VIEW 1: DASHBOARD ("My courses") -->
+      <!-- ---------------------------------------------------- -->
+      <section id="dashboard-view" class="view-section active-view">
+        <div class="courses-header">
+          <h2>My courses</h2>
+          <button class="add-course-btn" id="add-course-top-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Add course
+          </button>
+        </div>
+        
+        <!-- Main dynamic course list -->
+        <div class="courses-grid" id="courses-grid-list">
+          <!-- Active courses go here -->
+        </div>
+
+        <!-- Got another course panel activator -->
+        <div class="got-course-panel" id="dashboard-empty-panel">
+          <h3>Got another course?</h3>
+          <p>Save your courses for easy access</p>
+          <button class="add-course-btn" id="add-course-panel-btn">Add course</button>
+        </div>
+      </section>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- VIEW 2: SUBJECT LANDING RESOURCE OVERVIEW -->
+      <!-- ---------------------------------------------------- -->
+      <section id="landing-view" class="view-section">
+        <!-- Breadcrumbs layout -->
+        <div class="breadcrumbs" id="landing-breadcrumbs">
+          <a href="#" class="home-crumb">Dashboard</a>
+          <span class="separator">/</span>
+          <span class="current-crumb">Course</span>
+        </div>
+        
+        <div class="page-title-row">
+          <h1 class="page-title" id="landing-title">Edexcel IGCSE Physics Revision</h1>
+          <button class="icon-btn-gray" title="Bookmark Resource">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Specification download banner -->
+        <div class="spec-download-banner">
+          <div class="spec-info">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+            </svg>
+            <span id="landing-spec-label">Specification 4PH1</span>
+          </div>
+          <button class="outline-btn-sm" id="download-spec-btn">
+            Download
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="landing-tabs-bar">
+          <button class="landing-tab-item active">Course Resources</button>
+        </div>
+
+        <!-- Resource Cards Section -->
+        <div class="practice-section">
+          <h3>Exam Practice</h3>
+          <p class="subtitle">Test yourself with questions, tests and exam papers and identify areas for improvement</p>
+          
+          <!-- Revision Notes / Questions (Visual placeholder) -->
+          <div class="practice-resource-card">
+            <div class="resource-card-tags">
+              <span class="tag tag-study">Study</span>
+              <span class="tag tag-practice">Practice</span>
+              <span class="tag tag-diagnose">Diagnose</span>
+            </div>
+            <h4 class="resource-card-title">Revision Notes & Study Guide</h4>
+            <p class="resource-card-description">Exam-style revision notes, cheat sheets, and diagnostic study plans organized by subject topic to help keep your preparation focused.</p>
+            <div class="resource-card-actions">
+              <button class="link-action-purple" id="view-notes-btn">Explore revision guides &rarr;</button>
+            </div>
+          </div>
+
+          <!-- Past Papers Grid Trigger card -->
+          <div class="practice-resource-card">
+            <div class="resource-card-tags">
+              <span class="tag tag-practice">Practice</span>
+            </div>
+            <h4 class="resource-card-title">Past Papers</h4>
+            <p class="resource-card-description">All the past papers from this course, including regional papers and examiner feedback, organized in one place with a built-in score tracker.</p>
+            <div class="resource-card-actions">
+              <button class="link-action-purple" id="landing-view-papers-btn">See all Past Papers &rarr;</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ---------------------------------------------------- -->
+      <!-- VIEW 3: PAST PAPERS GRID VIEW BY YEAR -->
+      <!-- ---------------------------------------------------- -->
+      <section id="papers-view" class="view-section">
+        <div class="breadcrumbs" id="papers-breadcrumbs">
+          <a href="#" class="home-crumb">Dashboard</a>
+          <span class="separator">/</span>
+          <a href="#" class="subject-crumb" id="papers-subject-crumb">Course</a>
+          <span class="separator">/</span>
+          <span class="current-crumb">Past Papers</span>
+        </div>
+
+        <div class="page-title-row">
+          <div style="display:flex; flex-direction:column; gap:0.25rem;">
+            <h1 class="page-title" id="papers-title">Past Papers Edexcel IGCSE English Literature</h1>
+            <div style="display:flex; align-items:center; gap:0.5rem; margin-top:0.25rem;">
+              <span class="papers-head-badge" id="papers-code-badge">Exam code: 4ET1</span>
+              <button class="outline-btn-sm" style="padding:0.2rem 0.6rem;" title="Share resources">
+                Share
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="18" cy="5" r="3"></circle>
+                  <circle cx="6" cy="12" r="3"></circle>
+                  <circle cx="18" cy="19" r="3"></circle>
+                  <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                  <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <p class="papers-intro-text">Solve these official past exam papers to gauge your strengths, track scores, and evaluate areas for practice. All resources are grouped by year and session below.</p>
+
+        <!-- Dynamic Year and papers sections wrapper -->
+        <div class="year-section-container" id="years-sections-wrapper">
+          <!-- Dynamic Year groups render here -->
+        </div>
+
+        <!-- No papers matched error placeholder inside papers view -->
+        <div id="no-papers-matched" class="empty-state" style="display: none;">
+          <div class="empty-icon-container">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+          </div>
+          <h3>No papers found matching filters</h3>
+          <p>We couldn't find any documents matching your current filter settings. Try resetting your search.</p>
+        </div>
+      </section>
+
+      <!-- Bottom Coding Guide Box -->
+      <section class="bottom-guide-section">
+        <div class="guide-box glass-panel">
+          <h3 class="guide-box-title">
+            <span class="info-icon-glow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+            </span>
+            EDEXCEL CODING GUIDE
+          </h3>
+          <p>Files with an <strong>'R'</strong> (e.g., <code>1HR</code>, <code>2FR</code>) represent papers written in regional time zones. <strong>'MS'</strong> helps you check answers, and <strong>'ER'</strong> provides analysis of student performance from examiners.</p>
+        </div>
+      </section>
+
+      <!-- Footer section -->
+      <footer class="app-footer">
+        <div class="footer-left">
+          <p>⚠️ <strong>Disclaimer:</strong> This application is an independent community resources repository. Edexcel, Pearson Edexcel, and International GCSE are registered trademarks of Pearson Education Limited or their respective owners. This platform is not affiliated with, sponsored by, or endorsed by Pearson plc.</p>
+          <p class="copyright-text">© 2026 Edexcel IGCSE Past Papers Hub. All rights reserved.</p>
+        </div>
+        <div class="footer-right">
+          <a href="mailto:educationkyawmyonaing@gmail.com" class="contact-email">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            Contact Webmaster
+            <span>educationkyawmyonaing@gmail.com</span>
+          </a>
+        </div>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- MODAL: Course Activator Selector popup -->
+  <div class="modal-overlay" id="add-course-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Add course to dashboard</h3>
+        <button class="modal-close-btn" id="modal-close-btn">&times;</button>
+      </div>
+      <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top:-0.5rem;">Select an available Edexcel GCSE subject to activate it on your study dashboard:</p>
+      <div class="modal-body-list" id="modal-subjects-list">
+        <!-- Subjects to activate render here -->
+      </div>
+    </div>
   </div>
 
   <!-- Client-side Logic Script -->
