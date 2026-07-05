@@ -231,11 +231,6 @@ const courseMenuTitle = document.getElementById('course-menu-title');
 const navResourcesBtn = document.getElementById('nav-resources-btn');
 const resourcesDrawerOverlay = document.getElementById('resources-drawer-overlay');
 const resourcesDrawerPanel = document.getElementById('resources-drawer-panel');
-const drawerIgcseBtn = document.getElementById('drawer-igcse-btn');
-const drawerBackBtn = document.getElementById('drawer-back-btn');
-const drawerMyCoursesBtn = document.getElementById('drawer-my-courses-btn');
-const drawerViewMain = document.getElementById('drawer-view-main');
-const drawerViewIgcse = document.getElementById('drawer-view-igcse');
 
 // Sidebar Collapse elements
 const sidebarHideMenuBtn = document.getElementById('sidebar-hide-menu-btn');
@@ -332,8 +327,6 @@ function setupEventListeners() {
   // Global Resources slide-out drawer trigger
   navResourcesBtn.addEventListener('click', (e) => {
     e.preventDefault();
-    drawerViewMain.classList.add('active-view');
-    drawerViewIgcse.classList.remove('active-view');
     resourcesDrawerOverlay.classList.add('open');
   });
 
@@ -343,23 +336,8 @@ function setupEventListeners() {
     }
   });
 
-  drawerIgcseBtn.addEventListener('click', () => {
-    drawerViewMain.classList.remove('active-view');
-    drawerViewIgcse.classList.add('active-view');
-  });
-
-  drawerBackBtn.addEventListener('click', () => {
-    drawerViewIgcse.classList.remove('active-view');
-    drawerViewMain.classList.add('active-view');
-  });
-
-  drawerMyCoursesBtn.addEventListener('click', () => {
-    navigateTo('dashboard');
-    resourcesDrawerOverlay.classList.remove('open');
-  });
-
   // Click on drawer subjects list
-  document.querySelectorAll('#drawer-view-igcse a[data-subject]').forEach(a => {
+  document.querySelectorAll('#resources-drawer-overlay a[data-subject]').forEach(a => {
     a.addEventListener('click', (e) => {
       e.preventDefault();
       const code = a.getAttribute('data-subject');
@@ -596,6 +574,12 @@ function activateCourse(code) {
 function navigateTo(page, subjectCode = '') {
   currentPage = page;
   currentSubjectCode = subjectCode;
+
+  // Clear global search query state on navigation
+  searchQuery = '';
+  globalSearchInput.value = '';
+  clearSearchBtn.style.display = 'none';
+  searchResultsDropdown.style.display = 'none';
 
   // 1. Reset active views
   document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active-view'));
